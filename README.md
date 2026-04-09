@@ -1,209 +1,203 @@
-# Student Management System
+# Student Management System - Backend
 
-A full-stack React + Node.js application with MongoDB for comprehensive student record management.
+Express.js API backend for the Student Management System with MongoDB integration.
 
-## 🚀 Features
+## Features
 
-### Frontend (React)
-- **Authentication**: Secure login system with JWT tokens
-- **Dashboard**: Welcome page with navigation cards
-- **Student Management**: Register, view, update, and delete student records
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
-- **Modern UI**: Clean, professional interface with animations
-
-### Backend (Node.js/Express)
-- **RESTful API**: Complete API for student and user management
-- **Authentication**: JWT-based secure authentication
+- **Authentication**: JWT-based user authentication
+- **Student Management**: Full CRUD operations for student records
+- **Data Validation**: Input validation using express-validator
+- **Security**: Password hashing with bcryptjs
 - **Database**: MongoDB with Mongoose ODM
-- **Validation**: Input validation and error handling
-- **Security**: Password hashing and protected routes
 
-## 🛠 Technology Stack
+## Technology Stack
 
-### Frontend
-- **React 19** - UI framework
-- **React Router** - Client-side routing
-- **Vite** - Build tool and dev server
-- **CSS** - Modern styling with responsive design
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB with Mongoose
+- **Authentication**: JWT (JSON Web Tokens)
+- **Validation**: express-validator
+- **Security**: bcryptjs for password hashing
 
-### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - ODM for MongoDB
-- **JWT** - Authentication tokens
-- **bcryptjs** - Password hashing
+## Getting Started
 
-## 📋 Prerequisites
+### Prerequisites
 
 - Node.js (v14 or higher)
-- MongoDB (local or MongoDB Atlas)
+- MongoDB (local installation or MongoDB Atlas)
 - npm or yarn
 
-## 🚀 Getting Started
+### Installation
 
-### 1. Clone and Install
+1. **Navigate to backend directory:**
+   ```bash
+   cd backend
+   ```
 
-```bash
-# Install frontend dependencies
-npm install
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-# Install backend dependencies
-cd backend
-npm install
-cd ..
-```
+3. **Environment Setup:**
+   Create a `.env` file in the backend directory:
+   ```env
+   MONGODB_URI=mongodb://localhost:27017/studentmanagement
+   JWT_SECRET=your_super_secret_jwt_key_here
+   PORT=5000
+   ```
 
-### 2. Setup Environment
+4. **Start MongoDB:**
+   Make sure MongoDB is running on your system.
 
-Create `.env` file in `backend/` directory:
-```env
-MONGODB_URI=mongodb://localhost:27017/studentmanagement
-JWT_SECRET=your_super_secret_jwt_key_here
-PORT=5000
-```
+5. **Seed the database with admin user:**
+   ```bash
+   npm run seed
+   ```
 
-### 3. Start MongoDB
+6. **Start the server:**
+   ```bash
+   npm run dev  # For development (with nodemon)
+   # or
+   npm start    # For production
+   ```
 
-Make sure MongoDB is running on your system.
+The server will start on `http://localhost:5000`
 
-### 4. Seed Database
-
-```bash
-cd backend
-npm run seed
-```
-
-This creates a default admin user:
-- **Username:** admin
-- **Password:** password
-
-### 5. Start Both Servers
-
-**Terminal 1 - Backend:**
-```bash
-cd backend
-npm run dev
-```
-Server runs on `http://localhost:5000`
-
-**Terminal 2 - Frontend:**
-```bash
-npm run dev
-```
-App runs on `http://localhost:5177`
-
-## 📱 Usage
-
-1. **Open** `http://localhost:5177` in your browser
-2. **Login** with credentials: `admin` / `password`
-3. **Navigate** using the dashboard cards
-4. **Manage Students**:
-   - Register new students
-   - View all student records
-   - Edit student information inline
-   - Delete students with confirmation
-
-## 🏗 Project Structure
-
-```
-studentmanagemant/
-├── src/                    # Frontend React app
-│   ├── components/         # React components
-│   ├── api.js             # API service functions
-│   ├── App.jsx            # Main app component
-│   └── App.css            # Application styles
-├── backend/               # Backend Node.js API
-│   ├── models/            # MongoDB models
-│   ├── routes/            # API routes
-│   ├── middleware/        # Custom middleware
-│   ├── server.js          # Express server
-│   └── README.md          # Backend documentation
-├── public/                # Static assets
-└── package.json           # Frontend dependencies
-```
-
-## 🔗 API Endpoints
+## API Endpoints
 
 ### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
 
-### Students (Protected)
-- `GET /api/students` - Get all students
-- `POST /api/students` - Create student
-- `PUT /api/students/:id` - Update student
-- `DELETE /api/students/:id` - Delete student
+#### POST /api/auth/login
+Login with username and password.
 
-## 🎨 Features Overview
+**Request Body:**
+```json
+{
+  "username": "admin",
+  "password": "password"
+}
+```
 
-### Authentication System
-- JWT token-based authentication
-- Automatic logout on token expiry
-- Secure API endpoints
+**Response:**
+```json
+{
+  "token": "jwt_token_here"
+}
+```
 
-### Student Management
-- **Create**: Add new students with validation
-- **Read**: View all students in responsive table
-- **Update**: Inline editing in the table
-- **Delete**: Remove students with confirmation
+#### POST /api/auth/register
+Register a new user (for demo purposes).
 
-### User Experience
-- Loading states and error handling
-- Responsive design for all devices
-- Intuitive navigation
-- Form validation and feedback
+### Students
 
-## 🔧 Development Scripts
+All student endpoints require authentication (Bearer token in Authorization header).
 
-### Frontend
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run lint` - Run ESLint
-- `npm run preview` - Preview production build
+#### GET /api/students
+Get all students.
 
-### Backend
-- `npm run dev` - Start with nodemon (auto-restart)
+**Response:**
+```json
+[
+  {
+    "_id": "student_id",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "age": 20,
+    "grade": "A",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+]
+```
+
+#### GET /api/students/:id
+Get a specific student by ID.
+
+#### POST /api/students
+Create a new student.
+
+**Request Body:**
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "age": 20,
+  "grade": "A"
+}
+```
+
+#### PUT /api/students/:id
+Update a student.
+
+**Request Body:** (same as POST, only include fields to update)
+
+#### DELETE /api/students/:id
+Delete a student.
+
+## Data Models
+
+### User
+```javascript
+{
+  username: String (required, unique, 3-20 chars),
+  password: String (required, hashed, min 6 chars),
+  timestamps: true
+}
+```
+
+### Student
+```javascript
+{
+  name: String (required, max 50 chars),
+  email: String (required, unique, valid email),
+  age: Number (required, 1-100),
+  grade: String (required, max 20 chars),
+  timestamps: true
+}
+```
+
+## Scripts
+
 - `npm start` - Start production server
+- `npm run dev` - Start development server with nodemon
 - `npm run seed` - Create default admin user
 
-## 🚀 Deployment
+## Environment Variables
 
-### Frontend
-```bash
-npm run build
-```
-Deploy the `dist/` folder to your web server.
+- `MONGODB_URI` - MongoDB connection string
+- `JWT_SECRET` - Secret key for JWT signing
+- `PORT` - Server port (default: 5000)
 
-### Backend
-1. Set environment variables
-2. Run `npm run seed` for initial user
-3. Run `npm start`
-4. Ensure MongoDB connection
+## Error Handling
 
-## 🔒 Security Features
+The API returns appropriate HTTP status codes and error messages:
+
+- `200` - Success
+- `400` - Bad Request (validation errors)
+- `401` - Unauthorized (invalid/missing token)
+- `404` - Not Found
+- `500` - Internal Server Error
+
+## Security Features
 
 - Password hashing with bcryptjs
-- JWT token authentication
+- JWT token-based authentication
 - Input validation and sanitization
-- CORS configuration
-- Protected API routes
+- CORS enabled for frontend communication
+- Protected routes with middleware
 
-## 📱 Responsive Design
+## Development
 
-The application is fully responsive and optimized for:
-- **Desktop**: Full feature set
-- **Tablet**: Adapted layouts
-- **Mobile**: Touch-friendly interface
+For development, the server auto-restarts on file changes when using `npm run dev`.
 
-## 🤝 Contributing
+## Deployment
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test both frontend and backend
-5. Submit a pull request
+1. Set environment variables
+2. Run `npm run seed` to create admin user
+3. Run `npm start` to start the server
+4. Ensure MongoDB is accessible
 
-## 📄 License
+## License
 
-This project is a demonstration of full-stack development with React and Node.js.
+This project is part of the Student Management System.
