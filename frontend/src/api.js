@@ -16,16 +16,34 @@ const getAuthHeaders = () => {
 
 // Helper function to handle API responses and auth errors
 const handleResponse = async (response, errorMessage) => {
+  const contentType = response.headers.get('Content-Type') || '';
+  const bodyText = await response.text();
+
+  const parseJson = (text) => {
+    try {
+      return JSON.parse(text);
+    } catch {
+      return null;
+    }
+  };
+
   if (!response.ok) {
     if (response.status === 401) {
       localStorage.removeItem('token');
       window.location.href = '/login';
       throw new Error('Session expired. Please login again.');
     }
-    const error = await response.json();
-    throw new Error(error.message || errorMessage);
+
+    const errorData = contentType.includes('application/json') ? parseJson(bodyText) : null;
+    const message = errorData?.message || bodyText || errorMessage;
+    throw new Error(message || errorMessage);
   }
-  return response.json();
+
+  if (contentType.includes('application/json')) {
+    return parseJson(bodyText);
+  }
+
+  return bodyText;
 };
 
 // Auth API
@@ -108,6 +126,32 @@ export const studentsAPI = {
     return handleResponse(response, 'Failed to predict performance');
   },
 
+  savePrediction: async (predictionData) => {
+    const response = await fetch(`${API_BASE_URL}/predictions`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(predictionData)
+    });
+
+    return handleResponse(response, 'Failed to save prediction');
+  },
+
+  getPredictions: async () => {
+    const response = await fetch(`${API_BASE_URL}/predictions`, {
+      headers: getAuthHeaders()
+    });
+
+    return handleResponse(response, 'Failed to load predictions');
+  },
+
+  getPredictionReport: async () => {
+    const response = await fetch(`${API_BASE_URL}/predictions/report`, {
+      headers: getAuthHeaders()
+    });
+
+    return handleResponse(response, 'Failed to load prediction report');
+  },
+
   predictBatchPerformance: async (studentsData) => {
     const response = await fetch(`${API_BASE_URL}/students/predict-batch`, {
       method: 'POST',
@@ -116,5 +160,52 @@ export const studentsAPI = {
     });
 
     return handleResponse(response, 'Failed to predict batch performance');
+  }
+};
+
+export const marksAPI = {
+  getAll: async () => {
+    const response = await fetch(`${API_BASE_URL}/marks`, {
+      headers: getAuthHeaders()
+    });
+
+    return handleResponse(response, 'Failed to fetch marks');
+  },
+
+  create: async (markData) => {
+    const response = await fetch(`${API_BASE_URL}/marks`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(markData)
+    });
+
+    return handleResponse(response, 'Failed to save mark');
+  },
+
+  update: async (id, markData) => {
+    const response = await fetch(`${API_BASE_URL}/marks/${id}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(markData)
+    });
+
+    return handleResponse(response, 'Failed to update mark');
+  },
+
+  delete: async (id) => {
+    const response = await fetch(`${API_BASE_URL}/marks/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+
+    return handleResponse(response, 'Failed to delete mark');
+  },
+
+  getByStudent: async (studentId) => {
+    const response = await fetch(`${API_BASE_URL}/marks/student/${studentId}`, {
+      headers: getAuthHeaders()
+    });
+
+    return handleResponse(response, 'Failed to fetch student marks');
   }
 };

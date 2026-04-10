@@ -5,6 +5,9 @@ import Welcome from './Welcome'
 import RegisterStudent from './RegisterStudent'
 import ViewStudents from './ViewStudents'
 import PredictPerformance from './PredictPerformance'
+import PredictionHistory from './PredictionHistory'
+import Marks from './Marks'
+import ViewMarks from './ViewMarks'
 import './App.css'
 
 function App() {
@@ -46,6 +49,9 @@ function App() {
             <Route path="/register" element={<RegisterStudent students={students} setStudents={setStudents} />} />
             <Route path="/students" element={<ViewStudents students={students} setStudents={setStudents} />} />
             <Route path="/predict" element={<PredictPerformance />} />
+            <Route path="/marks" element={<Marks />} />
+            <Route path="/view-marks" element={<ViewMarks />} />
+            <Route path="/predictions" element={<PredictionHistory />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         )}

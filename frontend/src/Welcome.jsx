@@ -24,6 +24,21 @@ function Welcome({ onLogout }) {
             <p>Predict student performance based on various factors</p>
             <Link to="/predict" className="card-link">Go to Prediction</Link>
           </div>
+          <div className="dashboard-card">
+            <h3>Record Student Marks</h3>
+            <p>Enter exam results and save marks for each student</p>
+            <Link to="/marks" className="card-link">Go to Marks</Link>
+          </div>
+          <div className="dashboard-card">
+            <h3>View Student Marks</h3>
+            <p>Browse and filter recorded marks by student or subject</p>
+            <Link to="/view-marks" className="card-link">View Marks</Link>
+          </div>
+          <div className="dashboard-card">
+            <h3>Prediction History</h3>
+            <p>View past performance predictions</p>
+            <Link to="/predictions" className="card-link">View Predictions</Link>
+          </div>
         </div>
       </div>
     </div>

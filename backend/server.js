@@ -4,6 +4,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const studentRoutes = require('./routes/students');
+const predictionRoutes = require('./routes/predictions');
+const markRoutes = require('./routes/marks');
 
 dotenv.config();
 
@@ -24,6 +26,8 @@ mongoose.connect(mongoUri)
     // Routes
     app.use('/api/auth', authRoutes);
     app.use('/api/students', studentRoutes);
+    app.use('/api/predictions', predictionRoutes);
+    app.use('/api/marks', markRoutes);
 
     // Error handling middleware
     app.use((err, req, res, next) => {

@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { studentsAPI } from './api'
+import { studentsAPI, marksAPI } from './api'
 
 function PredictPerformance() {
   const [formData, setFormData] = useState({
@@ -14,7 +14,24 @@ function PredictPerformance() {
   const [prediction, setPrediction] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+  const [students, setStudents] = useState([])
+  const [selectedStudentId, setSelectedStudentId] = useState('')
+  const [recentMarks, setRecentMarks] = useState([])
+  const [marksLoading, setMarksLoading] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const loadStudents = async () => {
+      try {
+        const result = await studentsAPI.getAll()
+        setStudents(result)
+      } catch (err) {
+        console.error('Failed to load students', err)
+      }
+    }
+    loadStudents()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -31,7 +48,6 @@ function PredictPerformance() {
     setError('')
 
     try {
-      // Convert string values to numbers where needed
       const predictionData = {
         ...formData,
         age: parseInt(formData.age),
@@ -40,10 +56,12 @@ function PredictPerformance() {
         previous_gpa: parseFloat(formData.previous_gpa)
       }
 
-      const result = await studentsAPI.predictPerformance(predictionData)
-      setPrediction(result)
+      const result = await studentsAPI.savePrediction(predictionData)
+      setPrediction(result.prediction)
+      setSuccessMessage('Prediction saved successfully.')
     } catch (err) {
       setError(err.message)
+      setSuccessMessage('')
     } finally {
       setLoading(false)
     }
@@ -152,6 +170,7 @@ function PredictPerformance() {
           </div>
 
           {error && <div className="error-message">{error}</div>}
+          {successMessage && <div className="success-message">{successMessage}</div>}
 
           <button type="submit" disabled={loading} className="predict-btn">
             {loading ? 'Predicting...' : 'Predict Performance'}
@@ -164,7 +183,7 @@ function PredictPerformance() {
             <div className="result-card">
               <div className="predicted-grade">
                 <h3>Predicted Grade: {prediction.predictedGrade}/100</h3>
-                <span className={`category ${prediction.performanceCategory.toLowerCase().replace(' ', '-')}`}>
+                <span className={`category ${prediction.performanceCategory.toLowerCase().replace(' ', '-')} `}>
                   {prediction.performanceCategory}
                 </span>
               </div>
