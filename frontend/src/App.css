@@ -313,11 +313,19 @@
   background: #e0a800;
 }
 
-.delete-btn {
+.delete-btn:hover {
+  background: #c82333;
+}
+
+/* Global Button Styles */
+.btn {
   padding: 0.5rem 1rem;
-  background: #dc3545;
-  color: white;
   border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 1rem;
+}
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -372,4 +380,126 @@
   height: 100vh;
   font-size: 1.2rem;
   color: #666;
+}
+
+/* Prediction Styles */
+.prediction-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.prediction-form h2 {
+  margin-top: 0;
+  color: #333;
+  text-align: center;
+}
+
+.predict-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-top: 1rem;
+}
+
+.predict-btn:hover {
+  transform: translateY(-2px);
+}
+
+.predict-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.prediction-result {
+  margin-top: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prediction-result h2 {
+  text-align: center;
+  color: #333;
+}
+
+.result-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.predicted-grade {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.predicted-grade h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.category {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.category.excellent {
+  background: #d4edda;
+  color: #155724;
+}
+
+.category.good {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.category.average {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.category.below-average {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.category.needs-improvement {
+  background: #f5c6cb;
+  color: #721c24;
+}
+
+.factors, .recommendations {
+  margin-bottom: 1.5rem;
+}
+
+.factors h4, .recommendations h4 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.factors ul, .recommendations ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.factors li, .recommendations li {
+  margin-bottom: 0.25rem;
+  color: #555;
 }

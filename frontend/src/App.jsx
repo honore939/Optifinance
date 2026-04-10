@@ -4,6 +4,7 @@ import Login from './Login'
 import Welcome from './Welcome'
 import RegisterStudent from './RegisterStudent'
 import ViewStudents from './ViewStudents'
+import PredictPerformance from './PredictPerformance'
 import './App.css'
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/" element={<Welcome onLogout={handleLogout} />} />
             <Route path="/register" element={<RegisterStudent students={students} setStudents={setStudents} />} />
             <Route path="/students" element={<ViewStudents students={students} setStudents={setStudents} />} />
+            <Route path="/predict" element={<PredictPerformance />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         )}

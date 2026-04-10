@@ -1,17 +1,25 @@
-# Student Management System - Backend
+# Optifinance - Student Management System
 
-Express.js API backend for the Student Management System with MongoDB integration.
+A full-stack web application for managing student records with authentication and CRUD operations.
+
+## Project Structure
+
+This is a monorepo with separate frontend and backend:
+
+- `backend/` - Express.js API server
+- `frontend/` - React application with Vite
 
 ## Features
 
-- **Authentication**: JWT-based user authentication
-- **Student Management**: Full CRUD operations for student records
-- **Data Validation**: Input validation using express-validator
-- **Security**: Password hashing with bcryptjs
-- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: JWT-based login system
+- **Student Management**: Register, view, update, and delete student records
+- **Responsive UI**: Modern React interface
+- **API Security**: Protected endpoints with token authentication
+- **Data Validation**: Server-side input validation
 
 ## Technology Stack
 
+### Backend
 - **Runtime**: Node.js
 - **Framework**: Express.js
 - **Database**: MongoDB with Mongoose
@@ -19,35 +27,117 @@ Express.js API backend for the Student Management System with MongoDB integratio
 - **Validation**: express-validator
 - **Security**: bcryptjs for password hashing
 
+### Frontend
+- **Framework**: React 18
+- **Build Tool**: Vite
+- **Routing**: React Router
+- **Styling**: CSS Modules
+
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- MongoDB (local installation or MongoDB Atlas)
+- Node.js (v16 or higher)
+- MongoDB (local or MongoDB Atlas)
 - npm or yarn
 
 ### Installation
 
-1. **Navigate to backend directory:**
+1. **Clone the repository:**
    ```bash
-   cd backend
+   git clone <repository-url>
+   cd optifinance
    ```
 
-2. **Install dependencies:**
+2. **Install root dependencies:**
    ```bash
    npm install
    ```
 
-3. **Environment Setup:**
-   Create a `.env` file in the backend directory:
+3. **Setup Backend:**
+   ```bash
+   cd backend
+   npm install
+   ```
+   Create `.env` file:
    ```env
-   MONGODB_URI=mongodb://localhost:27017/studentmanagement
+   MONGODB_URI=mongodb://localhost:27017/optifinance
    JWT_SECRET=your_super_secret_jwt_key_here
    PORT=5000
    ```
 
-4. **Start MongoDB:**
+4. **Setup Frontend:**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+5. **Seed Database (optional):**
+   ```bash
+   cd ../backend
+   npm run seed
+   ```
+   Creates admin user: username `admin`, password `password`
+
+### Running the Application
+
+**Development Mode (both frontend and backend):**
+```bash
+npm run dev
+```
+
+**Run Backend Only:**
+```bash
+npm run dev:backend
+```
+
+**Run Frontend Only:**
+```bash
+npm run dev:frontend
+```
+
+The application will be available at:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:5000
+
+### Build for Production
+
+```bash
+npm run build:frontend
+```
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+
+### Students (Protected)
+- `GET /api/students` - Get all students
+- `GET /api/students/:id` - Get student by ID
+- `POST /api/students` - Create new student
+- `PUT /api/students/:id` - Update student
+- `DELETE /api/students/:id` - Delete student
+
+## Usage
+
+1. Start the backend server
+2. Start the frontend development server
+3. Open http://localhost:5173 in your browser
+4. Login with admin credentials
+5. Manage student records through the interface
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
    Make sure MongoDB is running on your system.
 
 5. **Seed the database with admin user:**
