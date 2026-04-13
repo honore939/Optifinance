@@ -1,22 +1,15 @@
-# Optifinance TODO
+# Blockchain Hashing + Merkle Tree Integration
+Status: [ ] In Progress
 
-## Current Task Progress: Update PredictPerformance to use recorded marks (50%)
+## Steps:
+1. ✅ Create backend/utils/merkle.js (MerkleTree class)
+2. ✅ Create backend/utils/hashData.js (data serialization)
+3. ✅ Update backend/models/Mark.js (add fields + pre-save hook)
+4. ✅ Update backend/models/Prediction.js (add fields + pre-save hook)
+5. ✅ Create backend/routes/verify.js (verification endpoint)
+6. ✅ Update backend/server.js (mount /api/verify)
+7. [ ] Test: Restart backend, POST mark/prediction via frontend/Postman, check DB hashes
+8. [ ] Test verify endpoint
+9. [ ] Complete - attempt_completion
 
-**Completed:**
-- [x] Create TODO.md with steps
-- [x] Confirm plan with user
-
-**Completed Steps:**
-- [x] Edit frontend/src/PredictPerformance.jsx: Added student dropdown + Load from Marks button (fetches marksAPI.getByStudent → computes avg % → GPA = %/25 → proxies attendance/study_hours → auto-fills form)
-- [x] Added studentId/name to saved predictions
-
-**All Steps Complete ✅**
-
-- [x] Marks edit/update activated (ViewMarks.jsx)
-- [x] PredictPerformance marks integration: Student select → Load Marks → Auto GPA (%/25) + proxies → Predict/save with studentId
-- [x] MongoDB connected & servers running (backend:5000, frontend:5175)
-- [x] Tested flow ready
-
-App fully functional. Access: http://localhost:5175 → Login (admin/password) → Record marks → Predict from marks.
-
-Next: Implement step 1.
+Est. time: 10min

@@ -10,7 +10,7 @@ const markRoutes = require('./routes/marks');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || process.env.VERCEL_PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -23,11 +23,12 @@ mongoose.connect(mongoUri)
   .then(() => {
     console.log(`MongoDB connected to ${mongoUri}`);
 
-    // Routes
+// Routes
     app.use('/api/auth', authRoutes);
     app.use('/api/students', studentRoutes);
     app.use('/api/predictions', predictionRoutes);
     app.use('/api/marks', markRoutes);
+    app.use('/api/verify', require('./routes/verify'));
 
     // Error handling middleware
     app.use((err, req, res, next) => {

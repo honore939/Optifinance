@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const { getHashableData } = require('../utils/hashData');
+const MerkleTree = require('../utils/merkle');
+const crypto = require('crypto');
 
 const predictionSchema = new mongoose.Schema({
   studentId: {
@@ -54,9 +57,30 @@ const predictionSchema = new mongoose.Schema({
   recommendations: {
     type: [String],
     default: []
+  },
+  dataHash: {
+    type: String,
+    required: true
+  },
+  merkleRoot: {
+    type: String,
+    required: true
   }
 }, {
   timestamps: true
+});
+
+predictionSchema.pre('save', function(next) {
+  if (this.isNew || this.isModified()) {
+    // Compute dataHash (leaf)
+    const serialData = getHashableData(this);
+    this.dataHash = crypto.createHash('sha256').update(serialData).digest('hex');
+
+    // Merkle tree with single leaf (double SHA256 root)
+    const tree = new MerkleTree([serialData]);
+    this.merkleRoot = tree.getRootHash();
+  }
+  next();
 });
 
 module.exports = mongoose.model('Prediction', predictionSchema);
