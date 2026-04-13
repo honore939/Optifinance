@@ -23,11 +23,12 @@ mongoose.connect(mongoUri)
   .then(() => {
     console.log(`MongoDB connected to ${mongoUri}`);
 
-    // Routes
+// Routes
     app.use('/api/auth', authRoutes);
     app.use('/api/students', studentRoutes);
     app.use('/api/predictions', predictionRoutes);
     app.use('/api/marks', markRoutes);
+    app.use('/api/verify', require('./routes/verify'));
 
     // Error handling middleware
     app.use((err, req, res, next) => {
